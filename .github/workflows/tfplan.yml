@@ -1,0 +1,64 @@
+name: 'Run Terraform Apply'
+
+on:
+  workflow_dispatch:
+  #push:
+  #  branches:
+  #  - main
+  #pull_request:
+  #  branches:
+  #  - main
+
+#Special permissions required for OIDC authentication
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+#These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
+env:
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  
+jobs:
+         
+    terraform-apply:
+        name: 'Terraform Apply'
+        runs-on: ubuntu-latest
+        env:
+            #this is needed since we are running terraform with read-only permissions
+            ARM_SKIP_PROVIDER_REGISTRATION: true
+        outputs:
+            tfapplyExitCode: ${{ steps.tf-apply.outputs.exitcode }}
+            #needs: [terraform-plan]
+        
+        steps:
+            # Checkout the repository to the GitHub Actions runner
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: 'Az CLI login'
+          uses: azure/login@v1
+          with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+        # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v2
+
+        # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+        - name: Terraform Init
+          run: terraform init
+
+        # Download saved plan from artifacts  
+        - name: Download Terraform Plan
+          uses: actions/download-artifact@v3
+          with:
+            name: tfplan
+
+        # Terraform Apply
+        - name: Terraform Apply
+          run: terraform apply -auto-approve tfplan
