@@ -7,6 +7,12 @@ terraform {
       version = "~> 3"
     }
   }
+  backend "azurerm" {
+      resource_group_name  = "rg-bongiorno-weu-001"
+      storage_account_name = "testtfsttae"
+      container_name       = "getstate"
+      key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
