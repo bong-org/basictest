@@ -12,6 +12,7 @@ terraform {
       storage_account_name = "testtfsttae"
       container_name       = "getstate"
       key                  = "terraform.tfstate"
+      access_key           = "DefaultEndpointsProtocol=https;AccountName=testtfsttae;AccountKey=iR59/N2VGQT5x2uBw+QiRAOyZO0xVfyFrU5G61sBj4QaABrDMNpiol3CMN9KnRvVPlu3iiYMrV1u+ASt67VUJw==;EndpointSuffix=core.windows.net"
   }
 }
 
