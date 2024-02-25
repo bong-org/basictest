@@ -19,3 +19,7 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+variables "backend_access_key" {
+  type = string
+}
