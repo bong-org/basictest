@@ -12,14 +12,9 @@ terraform {
       storage_account_name = "testtfsttae"
       container_name       = "getstate"
       key                  = "terraform.tfstate"
-      access_key           = var.backend_access_key
   }
 }
 
 provider "azurerm" {
   features {}
-}
-
-variable "backend_access_key" {
-  type = string
 }
