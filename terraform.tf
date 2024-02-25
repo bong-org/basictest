@@ -20,6 +20,6 @@ provider "azurerm" {
   features {}
 }
 
-variables "backend_access_key" {
+variable "backend_access_key" {
   type = string
 }
