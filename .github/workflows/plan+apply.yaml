@@ -61,7 +61,11 @@ jobs:
       needs: terraform-plan
       runs-on: ubuntu-latest
       environment: production
-      
+      steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3
+
   terraform-apply:
       needs: wait-for-approval
       name: 'Terraform Apply'
