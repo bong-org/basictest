@@ -1,0 +1,80 @@
+name: 'Terraform Plan Simple'
+
+on:
+  workflow_dispatch:
+    
+  #push:
+  #  branches:
+  #  - main
+  #pull_request:
+  #  branches:
+  #  - main
+
+#Special permissions required for OIDC authentication
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+#These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
+env:
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  
+  
+jobs:
+
+  terraform-plan:
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+    environment:
+        name: dev
+    env: 
+      #this is needed since we are running terraform with read-only permissions
+      ARM_SKIP_PROVIDER_REGISTRATION: true
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: 'Az CLI login'
+      uses: azure/login@v1
+      with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Install the latest version of the Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: false
+        
+  #  - name: Print working directory  
+  #    run: pwd  
+  #
+  #  - name: List directory contents  
+  #    run: ls -l /home/runner/work/azure-b2c-terraform/azure-b2c-terraform/Config  
+
+  #  - name: Terraform Init  
+  #    run: terraform init  
+  #    working-directory: /home/runner/work/azure-b2c-terraform/azure-b2c-terraform  
+  #    
+  #  - name: Terraform Plan  
+  #    run: terraform plan -var-file="/home/runner/work/azure-b2c-terraform/azure-b2c-terraform/Config/dev.config.tfvars"  
+  #    working-directory: /home/runner/work/azure-b2c-terraform/azure-b2c-terraform  
+
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+      #working-directory: /home/runner/work/azure-b2c-terraform/azure-b2c-terraform/Defintions 
+      
+      
+    # Terraform Plan
+    - name: Terraform Plan
+      run: terraform plan -var-file="./terraform.tfvars"
+      #working-directory: /home/runner/work/azure-b2c-terraform/azure-b2c-terraform 
+      
