@@ -1,4 +1,4 @@
-name: 'Run Terraform Plan'
+name: 'Run Terraform Plan tests vars'
 
 on:
   workflow_dispatch:

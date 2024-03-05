@@ -1,4 +1,4 @@
-name: 'Run Terraform Plan'
+name: 'Run Terraform Plan simple'
 
 on:
   workflow_dispatch:
