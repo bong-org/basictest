@@ -1,4 +1,4 @@
-name: Terraform Plan Pipeline
+name: Terraform Plan Approved
 
 on:
   workflow_dispatch:
