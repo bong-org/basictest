@@ -37,14 +37,19 @@ if (-not $containerName) {
 $containerExists = az storage container exists --account-name $storageAccount --name $containerName --query "exists" --output tsv
 
 if ($containerExists -eq "false") {
-    $createContainer = Read-Host "Il container $containerName non esiste. Vuoi crearlo? (s/n)"
-    if ($createContainer -eq "s") {
-        az storage container create --account-name $storageAccount --name $containerName
-    } else {
-        Write-Host "Operazione annullata."
-        exit
-    }
+    Write-Host "Il container $containerName non esiste. Creazione del container..."
+    az storage container create --account-name $storageAccount --name $containerName
 }
+
+# if ($containerExists -eq "false") {
+#     $createContainer = Read-Host "Il container $containerName non esiste. Vuoi crearlo? (s/n)"
+#     if ($createContainer -eq "s") {
+#         az storage container create --account-name $storageAccount --name $containerName
+#     } else {
+#         Write-Host "Operazione annullata."
+#         exit
+#     }
+# }
 
 # Append file al container con sovrascrittura
 $files = Get-ChildItem -Path "./AppendFiles"
