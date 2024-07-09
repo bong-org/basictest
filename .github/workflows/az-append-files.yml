@@ -33,4 +33,4 @@ jobs:
         ./Script/replace.ps1
       env:
         AZURE_STORAGE_ACCOUNT: "testentra"
-        AZURE_CONTAINER_NAME: "t"
+        AZURE_CONTAINER_NAME: ""
