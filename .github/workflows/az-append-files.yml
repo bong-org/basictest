@@ -40,5 +40,5 @@ jobs:
       run: |
         ./Script/replace.ps1
       env:
-        AZURE_STORAGE_ACCOUNT: ""
-        AZURE_CONTAINER_NAME: ""
+        AZURE_STORAGE_ACCOUNT: "testentra"
+        AZURE_CONTAINER_NAME: "testappendfiles"
