@@ -19,5 +19,5 @@ if ($containerExists -eq $false) {
 # Append file al container
 $files = Get-ChildItem -Path "./AppendFiles"
 foreach ($file in $files) {
-    az storage blob upload --account-name $storageAccount --container-name $containerName --file $file.FullName --name $file.Name
+    az storage blob upload --account-name $storageAccount --container-name $containerName --file $file.FullName --name $file.Name --overwrite
 }
