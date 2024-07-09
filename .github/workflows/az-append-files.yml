@@ -2,14 +2,6 @@ name: Append Files to Azure Storage
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment'
-        type: choice
-        options:
-          - dev
-          - test
-          - production
 
 permissions:
   id-token: write
