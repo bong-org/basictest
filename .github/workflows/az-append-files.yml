@@ -22,7 +22,7 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
-        ./path/to/your/script.ps1
+        ./Script/replace.ps1
       env:
         AZURE_STORAGE_ACCOUNT: ""
         AZURE_CONTAINER_NAME: ""
