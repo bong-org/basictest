@@ -38,7 +38,7 @@ $containerExists = az storage container exists --account-name $storageAccount --
 
 if ($containerExists -eq "false") {
     Write-Host "Il container $containerName non esiste. Creazione del container..."
-    az storage container create --account-name $storageAccount --name $containerName
+    az storage container create --account-name $storageAccount --name $containerName --enable-delete-retention=false
 }
 
 # if ($containerExists -eq "false") {
