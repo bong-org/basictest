@@ -28,6 +28,10 @@ param (
     [string]$containerName = $env:AZURE_CONTAINER_NAME
 )
 
+if (-not $containerName) {
+    Write-Host "Error: Missing the container name."
+    exit 1
+}
 
 # Verifica se il container esiste
 $containerExists = az storage container exists --account-name $storageAccount --name $containerName --query "exists" --output tsv
