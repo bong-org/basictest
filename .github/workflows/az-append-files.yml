@@ -1,9 +1,20 @@
 name: Append Files to Azure Storage
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
 
 jobs:
   append-files:
