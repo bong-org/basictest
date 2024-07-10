@@ -7,10 +7,12 @@ Write-Host "Read configuration JSON file: $configFile"
 $config = Get-Content -Raw -Path $configFile | ConvertFrom-Json
 $storageAccount = $config.AZURE_STORAGE_ACCOUNT
 $containerName = $config.AZURE_CONTAINER_NAME
+$createContainerIfNotExists = $config.CREATE_CONTAINER_IF_NOT_EXISTS
 
 # Log of variables
 Write-Host "Storage account name: $storageAccount"
 Write-Host "Container name: $containerName"
+Write-Host "Crea container se non esiste: $createContainerIfNotExists"
 
 if (-not $containerName) {
     Write-Host "Error: Missing container name."
@@ -22,9 +24,19 @@ $containerExists = az storage container exists --account-name $storageAccount --
 Write-Host "Result of check: $containerExists"
 
 if ($containerExists -eq "false") {
-    Write-Host "The container $containerName not exists. Container creation..."
-    az storage container create --account-name $storageAccount --name $containerName
+    if ($createContainerIfNotExists -eq $true) {
+        Write-Host "The container $containerName not exists. Container creation..."
+        az storage container create --account-name $storageAccount --name $containerName
+    } else {
+        Write-Host "Error: The container $containerName not exists and the automatic creation is disabled."
+        exit 1
+    }
 }
+
+# if ($containerExists -eq "false") {
+#     Write-Host "The container $containerName not exists. Container creation..."
+#     az storage container create --account-name $storageAccount --name $containerName
+# }
 
 Write-Host "Uploading files into the Container $containerName..."
 $files = Get-ChildItem -Path "./AppendFiles"
