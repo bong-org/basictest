@@ -1,18 +1,47 @@
+# name: Append Files to Azure Storage
+
+# on:
+#   workflow_dispatch:
+
+# permissions:
+#   id-token: write
+#   contents: read
+#   pull-requests: write
+
+# env:
+#   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+#   ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+#   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  
+# jobs:
+#   append-files:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout repository
+#       uses: actions/checkout@v4
+
+#     - name: 'Az CLI login'
+#       uses: azure/login@v1
+#       with:
+#         client-id: ${{ secrets.AZURE_CLIENT_ID }}
+#         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+#         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+#     - name: Run PowerShell script
+#       shell: pwsh
+#       run: |
+#         ./Script/replace.ps1
+#       env:
+#         AZURE_STORAGE_ACCOUNT: "testentra"
+#         AZURE_CONTAINER_NAME: "testing"
+
 name: Append Files to Azure Storage
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
-
-env:
-  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
-  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
-  
 jobs:
   append-files:
     runs-on: ubuntu-latest
@@ -21,7 +50,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 'Az CLI login'
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -30,7 +59,4 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
-        ./Script/replace.ps1
-      env:
-        AZURE_STORAGE_ACCOUNT: "testentra"
-        AZURE_CONTAINER_NAME: "testing"
+        ./Script/replace.ps1 -configFile "./Config/parameters.json"
