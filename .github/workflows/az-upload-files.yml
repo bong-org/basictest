@@ -16,9 +16,6 @@ permissions:
   contents: read
   pull-requests: write
 
-env:
-  inputFolder: ${{ github.event.inputs.environment }}
-
 jobs:
   upload-files:
     runs-on: ubuntu-latest
@@ -36,4 +33,4 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
-        ./Script/upload.ps1 -configFile ./Config/parameters.json -inputFolder ./FilesToUpload/${{ env.inputFolder }}
+        ./Script/upload.ps1 -configFile ./Config/parameters.json -inputFolder ./FilesToUpload/${{ github.event.inputs.environment }}
