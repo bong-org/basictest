@@ -1,5 +1,6 @@
 param (
-    [string]$configFile = "./Config/parameters.json"
+    [string]$configFile = "./Config/parameters.json",
+    [string]$inputFolder
 )
 
 # Read JSON file and extract values
