@@ -84,7 +84,7 @@ Write-Host "Result of check: $containerExists"
 
 if ($containerExists -eq "false") {
     Write-Host "The container $containerName not exists. Container creation..."
-    az storage container create --account-name $storageAccount --name $containerName --enable-container-delete-retention=false
+    az storage container create --account-name $storageAccount --name $containerName --enable-container-delete-retention false
 }
 
 # if ($containerExists -eq "false") {
