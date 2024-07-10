@@ -60,10 +60,16 @@
 
 
 param (
-    [string]$storageAccount = $env:AZURE_STORAGE_ACCOUNT,
-    [string]$containerName = $env:AZURE_CONTAINER_NAME
+    [string]$configFile = "./path/to/your/config.json"
 )
 
+# Leggi il file JSON e estrai i valori
+Write-Host "Lettura del file di configurazione JSON: $configFile"
+$config = Get-Content -Raw -Path $configFile | ConvertFrom-Json
+$storageAccount = $config.AZURE_STORAGE_ACCOUNT
+$containerName = $config.AZURE_CONTAINER_NAME
+
+# Log delle variabili lette
 Write-Host "Account di archiviazione: $storageAccount"
 Write-Host "Nome del container: $containerName"
 
