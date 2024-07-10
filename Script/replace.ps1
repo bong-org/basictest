@@ -64,6 +64,9 @@ param (
     [string]$containerName = $env:AZURE_CONTAINER_NAME
 )
 
+Write-Host "Account di archiviazione: $storageAccount"
+Write-Host "Nome del container: $containerName"
+
 if (-not $containerName) {
     Write-Host "Errore: Il nome del container non è specificato."
     exit 1
