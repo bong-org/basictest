@@ -36,4 +36,4 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
-        ./Script/upload.ps1 -inputFolder ./FilesToUpload/${{ env.inputFolder }} -configFile ./Config/parameters.json
+        ./Script/upload.ps1 -configFile ./Config/parameters.json -inputFolder ./FilesToUpload/${{ env.inputFolder }}
