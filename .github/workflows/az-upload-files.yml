@@ -35,7 +35,7 @@
 #         AZURE_STORAGE_ACCOUNT: "testentra"
 #         AZURE_CONTAINER_NAME: "testing"
 
-name: Append Files to Azure Storage
+name: Upload Files to Azure Storage
 
 on:
   workflow_dispatch:
@@ -46,7 +46,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  append-files:
+  upload-files:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
