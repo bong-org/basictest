@@ -18,11 +18,14 @@ permissions:
 
 jobs:
   upload-files:
+    
+# Define the runner
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+# Login to Tenant Azure by Service Principal
     - name: 'Az CLI login'
       uses: azure/login@v1
       with:
@@ -30,6 +33,7 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+# Run script that uploading files into the Container in the Storage Account selected during configuration
     - name: Run PowerShell script
       shell: pwsh
       run: |
