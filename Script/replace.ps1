@@ -68,7 +68,6 @@ Write-Host "Read configuration JSON file: $configFile"
 $config = Get-Content -Raw -Path $configFile | ConvertFrom-Json
 $storageAccount = $config.AZURE_STORAGE_ACCOUNT
 $containerName = $config.AZURE_CONTAINER_NAME
-$softDelete = $config.SOFT_DELETE
 
 # Log of variables
 Write-Host "Storage account name: $storageAccount"
@@ -85,14 +84,8 @@ Write-Host "Result of check: $containerExists"
 
 if ($containerExists -eq "false") {
     Write-Host "The container $containerName not exists. Container creation..."
-    az storage container create --account-name $storageAccount --name $containerName --enable-container-delete-retention $softDelete
+    az storage container create --account-name $storageAccount --name $containerName
 }
-
-# if ($containerExists -eq "false") {
-#     Write-Host "Il container $containerName non esiste. Creazione del container..."
-#     az storage container create --account-name $storageAccount --name $containerName --enable-delete-retention=false
-# }
-
 
 Write-Host "Uploading files into the Container $containerName..."
 $files = Get-ChildItem -Path "./AppendFiles"
