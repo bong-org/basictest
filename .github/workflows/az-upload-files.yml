@@ -16,10 +16,12 @@ permissions:
   contents: read
   pull-requests: write
 
+env:
+  inputFolder: ${{ github.event.inputs.environment }}
+
 jobs:
   upload-files:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -34,4 +36,4 @@ jobs:
     - name: Run PowerShell script
       shell: pwsh
       run: |
-        ./Script/upload.ps1 -inputFolder ./FilesToUpload/${{ github.event.inputs.environment }} -configFile ./Config/parameters.json
+        ./Script/upload.ps1 -inputFolder ./FilesToUpload/${{ env.inputFolder }} -configFile ./Config/parameters.json
