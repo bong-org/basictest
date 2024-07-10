@@ -33,13 +33,9 @@ if ($containerExists -eq "false") {
     }
 }
 
-# if ($containerExists -eq "false") {
-#     Write-Host "The container $containerName not exists. Container creation..."
-#     az storage container create --account-name $storageAccount --name $containerName
-# }
 
 Write-Host "Uploading files into the Container $containerName..."
-$files = Get-ChildItem -Path "./AppendFiles"
+$files = Get-ChildItem -Path $inputFolder
 foreach ($file in $files) {
     Write-Host "Uploading the file: $($file.FullName)"
     az storage blob upload --account-name $storageAccount --container-name $containerName --file $file.FullName --name $file.Name --overwrite
