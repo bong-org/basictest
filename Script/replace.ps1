@@ -12,7 +12,7 @@ $createContainerIfNotExists = $config.CREATE_CONTAINER_IF_NOT_EXISTS
 # Log of variables
 Write-Host "Storage account name: $storageAccount"
 Write-Host "Container name: $containerName"
-Write-Host "Crea container se non esiste: $createContainerIfNotExists"
+Write-Host "Create container if it does not exist: $createContainerIfNotExists"
 
 if (-not $containerName) {
     Write-Host "Error: Missing container name."
