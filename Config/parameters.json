@@ -1,5 +1,5 @@
 {
     "AZURE_STORAGE_ACCOUNT": "testentra",
     "AZURE_CONTAINER_NAME": "testappendfiles",
-    "CREATE_CONTAINER_IF_NOT_EXISTS": false
+    "CREATE_CONTAINER_IF_NOT_EXISTS": true
 }
